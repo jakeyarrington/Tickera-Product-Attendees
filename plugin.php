@@ -28,9 +28,17 @@
 	require 'functions.php';
 
 	// add_filter('tc_cart_contents', 'tpa_cart_contents', 20);
-	add_filter('tc_checkout_owner_info_ticket_title', 'tpa_ticket_title', 20, 4);
+	
 	add_action('tc_cart_before_attendee_info_wrap', 'tpa_tickera_set_attendee', 1, 1);
 	add_action( 'wp_enqueue_scripts', 'tpa_enqueue_script' );
+
+	add_action('init', 'tpa_pre_actions');
+
+	function tpa_pre_actions() {
+		if(!wp_doing_ajax()) {
+			add_filter('tc_checkout_owner_info_ticket_title', 'tpa_ticket_title', 20, 4);
+		}
+	}
 
 
 	function tpa_enqueue_script() {
